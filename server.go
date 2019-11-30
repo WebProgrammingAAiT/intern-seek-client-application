@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var temp = template.Must(template.ParseFiles("index.html"))
+var temp = template.Must(template.ParseFiles("delivery/web/templates/index.html"))
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 

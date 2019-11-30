@@ -1,6 +1,4 @@
-package main
-
-
+package entity
 
 type Company struct {
 	Name        string
@@ -9,4 +7,4 @@ type Company struct {
 	Description string
 	userName    string
 	password    string
-  }
+}
