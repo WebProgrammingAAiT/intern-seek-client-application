@@ -1,61 +1,61 @@
 package service
 
 import (
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 )
 
-//UserServiceImpl implements user.UserService interface
-type UserServiceImpl struct {
+// UserService implements menu.UserService interface
+type UserService struct {
 	userRepo user.UserRepository
 }
 
-//NewUserServiceImpl returns new UserServiceImpl
-func NewUserServiceImpl(UserRepo user.UserRepository) *UserServiceImpl {
-	return &UserServiceImpl{userRepo: UserRepo}
+// NewUserService  returns a new UserService object
+func NewUserServiceImpl(userRepository user.UserRepository) user.UserService {
+	return &UserService{userRepo: userRepository}
 }
 
-//StoreUser stores a user given a user
-func (usi UserServiceImpl) StoreUser(user *entity.User) error {
-	err := usi.userRepo.StoreUser(user)
-	if err != nil {
-		return err
+// Users returns all stored application users
+func (us *UserService) Users() ([]entity.User, []error) {
+	usrs, errs := us.userRepo.Users()
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return nil
+	return usrs, errs
 }
 
-//UpdateUser updates a user given a user
-func (usi UserServiceImpl) UpdateUser(user *entity.User) error {
-	err := usi.userRepo.UpdateUser(user)
-	if err != nil {
-		return err
+// User retrieves an application user by its id
+func (us *UserService) User(id uint) (*entity.User, []error) {
+	usr, errs := us.userRepo.User(id)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return nil
+	return usr, errs
 }
 
-//DeleteUser deletes a user given an id
-func (usi UserServiceImpl) DeleteUser(id int) error {
-	err := usi.userRepo.DeleteUser(id)
-	if err != nil {
-		return err
+// UpdateUser updates  a given application user
+func (us *UserService) UpdateUser(user *entity.User) (*entity.User, []error) {
+	usr, errs := us.userRepo.UpdateUser(user)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return nil
+	return usr, errs
 }
 
-//Users returns  list of users
-func (usi UserServiceImpl) Users() ([]entity.User, error) {
-	users, err := usi.userRepo.Users()
-	if err != nil {
-		return nil, err
+// DeleteUser deletes a given application user
+func (us *UserService) DeleteUser(id uint) (*entity.User, []error) {
+	usr, errs := us.userRepo.DeleteUser(id)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return users, nil
+	return usr, errs
 }
 
-//User returns a user given an id
-func (usi UserServiceImpl) User(id int) (*entity.User, error) {
-	user, err := usi.userRepo.User(id)
-	if err != nil {
-		return user, err
+// StoreUser stores a given application user
+func (us *UserService) StoreUser(user *entity.User) (*entity.User, []error) {
+	usr, errs := us.userRepo.StoreUser(user)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return user, nil
+	return usr, errs
 }

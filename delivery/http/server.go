@@ -1,18 +1,18 @@
 package main
 
 import (
-	"database/sql"
 	"html/template"
 	"net/http"
 
+	"github.com/abdimussa87/Intern-Seek-Version-1/delivery/http/handler"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user/repository"
+	userRep "github.com/abdimussa87/Intern-Seek-Version-1/user/repository"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user/service"
+	userServ "github.com/abdimussa87/Intern-Seek-Version-1/user/service"
+	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 
 	_ "github.com/lib/pq"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/delivery/http/handler"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user/repository"
-	userRep "github.com/nebyubeyene/Intern-Seek-Version-1/user/repository"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user/service"
-	userServ "github.com/nebyubeyene/Intern-Seek-Version-1/user/service"
 )
 
 var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
@@ -29,31 +29,34 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	dbconn, err := sql.Open("postgres", "user=postgres dbname=interndb password='P@$$w0rDd' sslmode=disable")
+	dbconn, err := gorm.Open("postgres", "user=postgres dbname=gorminterndb password='P@$$wOrDd' sslmode=disable")
 
 	if err != nil {
 		panic(err)
 	}
 
 	defer dbconn.Close()
+	// dbconn.DropTableIfExists(&entity.CompanyDetail{}, &entity.User{})
+	// errs := dbconn.CreateTable(&entity.User{}, &entity.CompanyDetail{}).GetErrors()
 
-	if err := dbconn.Ping(); err != nil {
-		panic(err)
-	}
+	// if len(errs) > 0 {
+	// 	panic(errs)
+	// }
 
-	userRepo := userRep.NewUserRepositoryImpl(dbconn)
+	userRepo := userRep.NewUserGormRepoImpl(dbconn)
 	userServi := userServ.NewUserServiceImpl(userRepo)
 
-	compRepo := repository.NewCompanyRepositoryImpl(dbconn)
+	compRepo := repository.NewCompanyGormRepoImpl(dbconn)
 	compServ := service.NewCompanyService(compRepo)
 
-	//userHandler := handler.NewUserHandler( userServi)
+	//userHandler := handler.NewUserHandler(userServi)
 
 	compHandler := handler.NewCompanyHandler(compServ, userServi)
 
 	router := httprouter.New()
 
 	router.GET("/v1/company", compHandler.GetCompanies)
+	router.GET("/v1/company/:id", compHandler.GetSingleCompany)
 	router.POST("/v1/company/:id", compHandler.PostCompany)
 	router.PUT("/v1/company/update/:id", compHandler.PutCompany)
 	router.DELETE("/v1/company/delete/:id", compHandler.DeleteCompany)

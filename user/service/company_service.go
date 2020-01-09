@@ -1,61 +1,61 @@
 package service
 
 import (
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 )
 
-// UserService implements menu.UserService interface
+// CompanyService implements user.CompanyService interface
 type CompanyService struct {
 	companyRepo user.CompanyRepository
 }
 
-// NewUserService  returns a new UserService object
+// NewCompanyService  returns a new CompanyService object
 func NewCompanyService(companyRepository user.CompanyRepository) *CompanyService {
 	return &CompanyService{companyRepo: companyRepository}
 }
 
-// Users returns all stored application users
-func (cs *CompanyService) Companies() ([]entity.CompanyDetail, error) {
-	comps, err := cs.companyRepo.Companies()
-	if err != nil {
-		return nil, err
+// Companies returns all stored application company_details
+func (cs *CompanyService) Companies() ([]entity.CompanyDetail, []error) {
+	comps, errs := cs.companyRepo.Companies()
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return comps, err
+	return comps, errs
 }
 
-// User retrieves an application user by its id
-func (cs *CompanyService) Company(id uint) (*entity.CompanyDetail, error) {
-	comp, err := cs.companyRepo.Company(id)
-	if err != nil {
-		return nil, err
+// Company retrieves an application company_detail by its id
+func (cs *CompanyService) Company(id uint) (*entity.CompanyDetail, []error) {
+	comp, errs := cs.companyRepo.Company(id)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return comp, err
+	return comp, errs
 }
 
-// UpdateUser updates  a given application user
-func (cs *CompanyService) UpdateCompany(company *entity.CompanyDetail) error {
-	err := cs.companyRepo.UpdateCompany(company)
-	if err != nil {
-		return err
+// UpdateCompany updates  a given company_detail
+func (cs *CompanyService) UpdateCompany(company *entity.CompanyDetail) (*entity.CompanyDetail, []error) {
+	comp, errs := cs.companyRepo.UpdateCompany(company)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return err
+	return comp, errs
 }
 
-// DeleteUser deletes a given application user
-func (cs *CompanyService) DeleteCompany(id uint) error {
-	err := cs.companyRepo.DeleteCompany(id)
-	if err != nil {
-		return err
+// DeleteCompany deletes a given application company_detail
+func (cs *CompanyService) DeleteCompany(id uint) (*entity.CompanyDetail, []error) {
+	comp, errs := cs.companyRepo.DeleteCompany(id)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return err
+	return comp, errs
 }
 
-// StoreUser stores a given application user
-func (cs *CompanyService) StoreCompany(user_id int, company *entity.CompanyDetail) error {
-	err := cs.companyRepo.StoreCompany(user_id, company)
-	if err != nil {
-		return err
+// StoreCompany stores a given application company_detail
+func (cs *CompanyService) StoreCompany(company *entity.CompanyDetail) (*entity.CompanyDetail, []error) {
+	comp, errs := cs.companyRepo.StoreCompany(company)
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return err
+	return comp, errs
 }

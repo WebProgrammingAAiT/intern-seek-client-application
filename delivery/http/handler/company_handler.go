@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 	"github.com/julienschmidt/httprouter"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
 )
 
 type Companyhandler struct {
@@ -25,9 +25,9 @@ func NewCompanyHandler(compSrv user.CompanyService, userSrv user.UserService) *C
 func (ch *Companyhandler) GetCompanies(w http.ResponseWriter,
 	r *http.Request, _ httprouter.Params) {
 
-	companies, err := ch.companyService.Companies()
+	companies, errs := ch.companyService.Companies()
 
-	if err != nil {
+	if len(errs) > 0 {
 
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
@@ -62,9 +62,9 @@ func (ch *Companyhandler) GetSingleCompany(w http.ResponseWriter,
 		return
 	}
 
-	company, err := ch.companyService.Company(uint(id))
+	company, errs := ch.companyService.Company(uint(id))
 
-	if err != nil {
+	if len(errs) > 0 {
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
@@ -94,9 +94,9 @@ func (ch *Companyhandler) PutCompany(w http.ResponseWriter,
 		return
 	}
 
-	company, err := ch.companyService.Company(uint(id))
+	company, errs := ch.companyService.Company(uint(id))
 
-	if err != nil {
+	if len(errs) > 0 {
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 
@@ -112,15 +112,12 @@ func (ch *Companyhandler) PutCompany(w http.ResponseWriter,
 
 	json.Unmarshal(body, &company)
 
-	err = ch.companyService.UpdateCompany(company)
+	company, errs = ch.companyService.UpdateCompany(company)
 
-	if err != nil {
+	if len(errs) > 0 {
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		fmt.Println(company)
-		fmt.Println(err)
 		return
-
 	}
 
 	output, err := json.MarshalIndent(company, "", "\t\t")
@@ -149,8 +146,8 @@ func (ch *Companyhandler) PostCompany(w http.ResponseWriter,
 		return
 	}
 
-	user, errr := ch.userService.User(id)
-	if errr != nil {
+	user, errs := ch.userService.User(uint(id))
+	if len(errs) > 0 {
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
@@ -168,8 +165,8 @@ func (ch *Companyhandler) PostCompany(w http.ResponseWriter,
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
-
-	err = ch.companyService.StoreCompany(user.ID, company)
+	company.UserID = user.ID
+	company, errs = ch.companyService.StoreCompany(company)
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -195,9 +192,9 @@ func (ch *Companyhandler) DeleteCompany(w http.ResponseWriter,
 		return
 	}
 
-	err = ch.companyService.DeleteCompany(uint(id))
+	_, errs := ch.companyService.DeleteCompany(uint(id))
 
-	if err != nil {
+	if len(errs) > 0 {
 		w.Header().Set("Content-Type", "application/json")
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
