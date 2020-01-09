@@ -10,3 +10,10 @@ type UserRepository interface {
 	Users() ([]entity.User, error)
 	User(id int) (entity.User, error)
 }
+type ApplicationRepository interface{
+	StoreApplication(application *entity.Application)(*entity.Application,[]error)
+	UpdateApplication(application *entity.Application)(*entity.Application,[]error)
+	DeleteApplication(id uint)(*entity.Application,[]error)
+	Applications()([]entity.Application,[]error)
+	Application(id uint)(*entity.Application,[]error)
+}
