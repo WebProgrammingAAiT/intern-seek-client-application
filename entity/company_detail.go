@@ -7,4 +7,5 @@ type CompanyDetail struct {
 	City        string
 	FocusArea   string
 	Description string
+	User        User
 }
