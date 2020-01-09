@@ -17,3 +17,10 @@ type CompanyService interface {
 	Companies() ([]entity.CompanyDetail, []error)
 	Company(id uint) (*entity.CompanyDetail, []error)
 }
+type InternService interface {
+	StoreIntern(intern *entity.PersonalDetails)(*entity.PersonalDetails,[]error)
+	UpdateIntern(intern *entity.PersonalDetails)(*entity.PersonalDetails,[]error)
+	DeleteIntern(intern *entity.PersonalDetails)(*entity.PersonalDetails,[]error)
+	Interns()([]entity.PersonalDetails,[]error)
+	Intern(id uint)(*entity.PersonalDetails,[]error)
+}
