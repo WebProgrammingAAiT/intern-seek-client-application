@@ -18,3 +18,10 @@ type CompanyRepository interface {
 	Companies() ([]entity.CompanyDetail, []error)
 	Company(id uint) (*entity.CompanyDetail, []error)
 }
+type InternRepository interface {
+	StoreIntern(intern *entity.PersonalDetails) (*entity.PersonalDetails, []error)
+	UpdateIntern(intern *entity.PersonalDetails) (*entity.PersonalDetails, []error)
+	DeleteIntern(id uint) (*entity.PersonalDetails, []error)
+        Interns() ([]entity.PersonalDetails, []error)
+	Intern(id uint) (*entity.PersonalDetails, []error)
+}
