@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
-	"github.com/abdimussa87/Intern-Seek-Version-1/user"
+	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
+	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
 )
 
 //UserServiceImpl implements user.UserService interface
@@ -16,7 +16,7 @@ func NewUserServiceImpl(UserRepo user.UserRepository) *UserServiceImpl {
 }
 
 //StoreUser stores a user given a user
-func (usi UserServiceImpl) StoreUser(user entity.User) error {
+func (usi UserServiceImpl) StoreUser(user *entity.User) error {
 	err := usi.userRepo.StoreUser(user)
 	if err != nil {
 		return err
@@ -25,7 +25,7 @@ func (usi UserServiceImpl) StoreUser(user entity.User) error {
 }
 
 //UpdateUser updates a user given a user
-func (usi UserServiceImpl) UpdateUser(user entity.User) error {
+func (usi UserServiceImpl) UpdateUser(user *entity.User) error {
 	err := usi.userRepo.UpdateUser(user)
 	if err != nil {
 		return err
@@ -52,7 +52,7 @@ func (usi UserServiceImpl) Users() ([]entity.User, error) {
 }
 
 //User returns a user given an id
-func (usi UserServiceImpl) User(id int) (entity.User, error) {
+func (usi UserServiceImpl) User(id int) (*entity.User, error) {
 	user, err := usi.userRepo.User(id)
 	if err != nil {
 		return user, err

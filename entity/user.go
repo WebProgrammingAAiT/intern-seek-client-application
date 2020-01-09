@@ -4,7 +4,7 @@ package entity
 type User struct {
 	ID       int
 	Username string
-	Fullname string
+	Name     string
 	Email    string
 	Phone    string
 	Password string

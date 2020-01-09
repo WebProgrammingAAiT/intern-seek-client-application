@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
 )
 
 //UserRepositoryImpl implements the user.UserRepository interface
@@ -18,8 +18,8 @@ func NewUserRepositoryImpl(Conn *sql.DB) *UserRepositoryImpl {
 }
 
 //StoreUser stores a user in database given a user
-func (uri UserRepositoryImpl) StoreUser(user entity.User) error {
-	_, err := uri.conn.Exec("INSERT INTO users(username,full_name,email,phone,password) values($1,$2,$3,$4,$5)", user.Username, user.Fullname, user.Email, user.Phone, user.Password)
+func (uri UserRepositoryImpl) StoreUser(user *entity.User) error {
+	_, err := uri.conn.Exec("INSERT INTO users(username,full_name,email,phone,password) values($1,$2,$3,$4,$5)", user.Username, user.Name, user.Email, user.Phone, user.Password)
 	if err != nil {
 		return errors.New("Storing user has failed")
 	}
@@ -27,8 +27,8 @@ func (uri UserRepositoryImpl) StoreUser(user entity.User) error {
 }
 
 //UpdateUser updates a user in database given a user
-func (uri UserRepositoryImpl) UpdateUser(user entity.User) error {
-	_, err := uri.conn.Exec("UPDATE users SET username=$1,full_name=$2,email=$3,phone=$4,password=$5 WHERE id=$6", user.Username, user.Fullname, user.Email, user.Phone, user.Password, user.ID)
+func (uri UserRepositoryImpl) UpdateUser(user *entity.User) error {
+	_, err := uri.conn.Exec("UPDATE users SET username=$1,full_name=$2,email=$3,phone=$4,password=$5 WHERE id=$6", user.Username, user.Name, user.Email, user.Phone, user.Password, user.ID)
 	if err != nil {
 		return errors.New("Updating user in the database has failed")
 	}
@@ -53,7 +53,7 @@ func (uri UserRepositoryImpl) Users() ([]entity.User, error) {
 	listOfUsers := []entity.User{}
 	for rows.Next() {
 		u := entity.User{}
-		err = rows.Scan(&u.ID, &u.Username, &u.Fullname, &u.Email, &u.Phone, &u.Password)
+		err = rows.Scan(&u.ID, &u.Username, &u.Name, &u.Email, &u.Phone, &u.Password)
 		if err != nil {
 			return nil, err
 		}
@@ -64,12 +64,12 @@ func (uri UserRepositoryImpl) Users() ([]entity.User, error) {
 }
 
 //User returns a user from database
-func (uri UserRepositoryImpl) User(id int) (entity.User, error) {
+func (uri UserRepositoryImpl) User(id int) (*entity.User, error) {
 	row := uri.conn.QueryRow("SELECT * FROM users WHERE id=$1", id)
 	u := entity.User{}
-	err := row.Scan(&u.ID, &u.Username, &u.Fullname, &u.Email, &u.Phone, &u.Password)
+	err := row.Scan(&u.ID, &u.Username, &u.Name, &u.Email, &u.Phone, &u.Password)
 	if err != nil {
-		return u, err
+		return &u, err
 	}
-	return u, nil
+	return &u, nil
 }
