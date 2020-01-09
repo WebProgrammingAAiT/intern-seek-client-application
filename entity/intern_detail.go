@@ -2,7 +2,7 @@ package entity
 
 import "github.com/jinzhu/gorm"
 
-type PersonalDetail struct {
+type PersonalDetails struct {
 	gorm.Model
 	UserID      uint   `sql:"type:int REFERENCES users(ID)"`
 	Field   string `gorm:"type:varchar(255);not null"`
