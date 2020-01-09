@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 )
 
 // UserService implements menu.UserService interface
@@ -22,6 +22,15 @@ func (us *UserService) Users() ([]entity.User, []error) {
 		return nil, errs
 	}
 	return usrs, errs
+}
+
+//UserByUsernameAndPassword returns a user given a username and password if it exists
+func (us *UserService) UserByUsernameAndPassword(username string, password string) (*entity.User, error) {
+	usr, err := us.userRepo.UserByUsernameAndPassword(username, password)
+	if err != nil {
+		return nil, err
+	}
+	return usr, nil
 }
 
 // User retrieves an application user by its id

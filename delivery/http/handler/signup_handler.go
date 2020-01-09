@@ -8,16 +8,16 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/julienschmidt/httprouter"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
 )
 
 type SignUpHandler struct {
 	userServ user.UserService
 }
-type Claims struct {
+type claims struct {
 	UserID uint
 	Name   string
 	jwt.StandardClaims
@@ -30,8 +30,7 @@ func NewSignUpHandler(US user.UserService) *SignUpHandler {
 	return &SignUpHandler{userServ: US}
 }
 
-func (suh *SignUpHandler) SignUp(w http.ResponseWriter,
-	r *http.Request, _ httprouter.Params) {
+func (suh *SignUpHandler) SignUp(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	user := &entity.User{}
 
@@ -58,7 +57,7 @@ func (suh *SignUpHandler) SignUp(w http.ResponseWriter,
 	}
 	expirationTime := time.Now().Add(5 * time.Minute)
 	// Create the JWT claims, which includes the username and expiry time
-	claims := &Claims{
+	claims := &claims{
 		UserID: createdUser.ID,
 		Name:   createdUser.Name,
 		StandardClaims: jwt.StandardClaims{

@@ -1,6 +1,6 @@
 package user
 
-import "github.com/nebyubeyene/Intern-Seek-Version-1/entity"
+import "github.com/abdimussa87/Intern-Seek-Version-1/entity"
 
 //UserService specifies user related services
 type UserService interface {
@@ -9,6 +9,7 @@ type UserService interface {
 	UpdateUser(user *entity.User) (*entity.User, []error)
 	DeleteUser(id uint) (*entity.User, []error)
 	StoreUser(user *entity.User) (*entity.User, []error)
+	UserByUsernameAndPassword(username string, password string) (*entity.User, error)
 }
 type CompanyService interface {
 	StoreCompany(company *entity.CompanyDetail) (*entity.CompanyDetail, []error)

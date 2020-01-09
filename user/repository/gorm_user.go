@@ -1,9 +1,12 @@
 package repository
 
 import (
+	"errors"
+
+	"github.com/abdimussa87/Intern-Seek-Version-1/entity"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user"
 	"github.com/jinzhu/gorm"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/entity"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // UserGormRepo Implements the menu.UserRepository interface
@@ -24,6 +27,20 @@ func (userRepo *UserGormRepo) Users() ([]entity.User, []error) {
 		return nil, errs
 	}
 	return users, errs
+}
+
+//UserByUsernameAndPassword returns a user given a username and password if it exists
+func (userRepo *UserGormRepo) UserByUsernameAndPassword(username string, password string) (*entity.User, error) {
+	user := &entity.User{}
+	if err := userRepo.conn.Where("username=?", username).Find(user).Error; err != nil {
+		return nil, err
+	}
+	errf := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if errf != nil && errf == bcrypt.ErrMismatchedHashAndPassword {
+		return nil, errors.New("Invalid username or password")
+	}
+
+	return user, nil
 }
 
 // User retrieves a user by its id from the database

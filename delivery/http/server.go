@@ -4,13 +4,13 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/abdimussa87/Intern-Seek-Version-1/delivery/http/handler"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user/repository"
+	userRep "github.com/abdimussa87/Intern-Seek-Version-1/user/repository"
+	"github.com/abdimussa87/Intern-Seek-Version-1/user/service"
+	userServ "github.com/abdimussa87/Intern-Seek-Version-1/user/service"
 	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/delivery/http/handler"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user/repository"
-	userRep "github.com/nebyubeyene/Intern-Seek-Version-1/user/repository"
-	"github.com/nebyubeyene/Intern-Seek-Version-1/user/service"
-	userServ "github.com/nebyubeyene/Intern-Seek-Version-1/user/service"
 
 	_ "github.com/lib/pq"
 )
@@ -29,7 +29,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	dbconn, err := gorm.Open("postgres", "user=postgres dbname=gorminterndb password='P@$$w0rDd' sslmode=disable")
+	dbconn, err := gorm.Open("postgres", "user=postgres dbname=gorminterndb password='P@$$wOrDd' sslmode=disable")
 
 	if err != nil {
 		panic(err)
@@ -54,6 +54,7 @@ func main() {
 	compHandler := handler.NewCompanyHandler(compServ, userServi)
 
 	signUpHandler := handler.NewSignUpHandler(userServi)
+	signInHandler := handler.NewSignInHandler(userServi)
 
 	router := httprouter.New()
 
@@ -64,6 +65,7 @@ func main() {
 	router.DELETE("/v1/company/delete/:id", compHandler.DeleteCompany)
 
 	router.POST("/v1/signup", signUpHandler.SignUp)
+	router.POST("/v1/signin", signInHandler.SignIn)
 
 	http.ListenAndServe(":8181", router)
 
