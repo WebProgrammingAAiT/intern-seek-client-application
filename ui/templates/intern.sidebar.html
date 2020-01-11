@@ -1,0 +1,45 @@
+
+{{ define "intern.sidebar" }}
+
+<div class="page-content bg-white">
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Browse Jobs -->
+        <div class="section-full bg-white browse-job p-t50 p-b20">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 m-b30">
+                        <div class="sticky-top">
+                            <div class="candidate-info">
+                                <div class="candidate-detail text-center">
+                                    <div class="canditate-des">
+                                        <div class="upload-link" title="update" data-toggle="tooltip" data-placement="right">
+                                            <input type="file" class="update-flie">
+                                            <i class="fa fa-camera"></i>
+                                        </div>
+                                    </div>
+                                    <div class="candidate-title">
+                                        <div class="">
+                                            <h4 class="m-b5"><a href="javascript:void(0);">David Matin</a></h4>
+                                            <p class="m-b0"><a href="javascript:void(0);">Web developer</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li><a href="/intern" class="active">
+                                        <i class="fa fa-user-o" aria-hidden="true"></i> 
+                                        <span>Profile</span></a></li>
+                                    
+                                    <li><a href="/intern/applied">
+                                        <i class="fa fa-briefcase" aria-hidden="true"></i> 
+                                        <span>Applied Jobs</span></a></li>
+                                    
+                                    <li><a href="/">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> 
+                                        <span>Log Out</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ end }}
