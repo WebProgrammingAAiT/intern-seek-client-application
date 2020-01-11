@@ -1,12 +1,339 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to Intern Seek </h1>
-</body>
-</html>
+{{ define "index.layout" }}
+
+{{ template "company.navbar" . }}
+{{ template "index.content" . }}
+{{ template "company.footer" . }}
+
+{{ end }}
+
+{{ define "index.content" }}
+                        <div class="page-content">
+                            <!-- Section Banner -->
+
+                            <div class="dez-bnr-inr dez-bnr-inr-md overlay-black-dark" style="background-image: url(../assets/img/index-bg.jpg);">
+                                <div class="container">
+                                    <div class="dez-bnr-inr-entry align-m text-white">
+                                        <div class=" job-search-form">
+                                            <h2 class="text-center">The Easiest Way to Get Your New Job</h2>
+                                            <h3>Find Internships, Employment & Career Opportunities</h3>
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Job Title, Keywords Or Company Name">
+                                                    <input type="text" class="form-control" placeholder="City, Province Or Region">
+                                                    <div class="input-group-prepend">
+                                                        <button class="site-button">Search</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Section Banner END -->
+                            <!-- About Us -->
+                            <div class="section-full job-categories content-inner-2 bg-white">
+                                <div class="container">
+                                    <div class="section-head text-center">
+                                        <h2 class="m-b5">Popular Categories</h2>
+                                        <h5 class="fw4">20+ Catetories work wating for you</h5>
+                                    </div>
+                                    <div class="row sp20">
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-location-pin"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Design, Art & Multimedia</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-location-pin"></i></div> 
+                                                </div>
+                                            </div>				
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-wand"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Education Training</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-wand"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-wallet"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Accounting / Finance</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-wallet"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-cloud-up"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Human Resource</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-cloud-up"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-bar-chart"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Telecommunications</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-bar-chart"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-tablet"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Restaurant / Food Service</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-tablet"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-camera"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Construction / Facilities</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-camera"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="icon-bx-wraper">
+                                                <div class="icon-content">
+                                                    <div class="icon-md text-primary m-b20"><i class="ti-panel"></i></div>
+                                                    <a href="company-manage-job.html" class="dez-tilte">Health</a>
+                                                    <p class="m-a0">198 Open Positions</p>
+                                                    <div class="rotate-icon"><i class="ti-panel"></i></div> 
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-12 text-center m-t30">
+                                            <button class="site-button radius-xl">All Categories</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- About Us END -->
+                           
+                            <!-- Our Job -->
+                            <div class="section-full bg-white content-inner-2">
+                                <div class="container">
+                                    <div class="d-flex job-title-bx section-head">
+                                        <div class="mr-auto">
+                                            <h2 class="m-b5">Recent Internships</h2>
+                                            <h6 class="fw4 m-b0">20+ Recently Added Internships</h6>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <ul class="post-job-bx browse-job">
+                                                <li>
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <!-- <li> 
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="post-bx">
+                                                        <div class="d-flex m-b30">
+                                                            <div class="job-post-company">
+                                                                <span><img alt="" src="/assets/images/logo/icon1.png"/></span>
+                                                            </div>
+                                                            <div class="job-post-info">
+                                                                <h4><a href="/internship/desc">Digital Marketing Executive</a></h4>
+                                                                <ul>
+                                                                    <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                                    <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                                    <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="job-time mr-auto">
+                                                                <a href="javascript:void(0);"><span>Full Time</span></a>
+                                                            </div>
+                                                            <div class="salary-bx">
+                                                                <span>$1200 - $ 2500</span>
+                                                            </div>
+                                                        </div>
+                                                        <label class="like-btn">
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </div>
+                                                </li>-->
+                                            </ul>
+                                            <div class="m-t30">
+                                                <div class="d-flex">
+                                                    <a class="site-button button-sm mr-auto" href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a>
+                                                    <a class="site-button button-sm" href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Our Job END -->	
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Browse Internships END -->
+        </div>
+    </div>
+    <!-- Content END-->
+
+{{ end }}
