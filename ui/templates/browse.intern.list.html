@@ -1,0 +1,315 @@
+
+{{ define "internships.layout" }}
+
+{{ template "company.navbar" . }}
+{{ template "internships.content" . }}
+{{ template "company.footer" . }}
+
+{{ end }}
+
+{{ define "internships.content" }}
+
+
+<!-- Content -->
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(https://job-board.dexignzone.com/xhtml/images/banner/bnr1.jpg);">
+        <div class="container">
+            <div class="dez-bnr-inr-entry">
+                <h1 class="text-white">Browse Jobs List</h1>
+                <!-- Breadcrumb row -->
+                <div class="breadcrumb-row">
+                    <ul class="list-inline">
+                        <li><a href="#">Home</a></li>
+                        <li>Browse Jobs List</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumb row END -->
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <!-- Filters Search -->
+    <div class="section-full browse-job-find">
+        <div class="container">
+            <div class="find-job-bx">
+                <form class="dezPlaceAni">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label>Job Title, Keywords, or Phrase</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="">
+                                    <div class="input-group-append">
+                                      <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label>City, State or ZIP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="">
+                                    <div class="input-group-append">
+                                      <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <select>
+                                    <option>Select Sector</option>
+                                    <option>Construction</option>
+                                    <option>Corodinator</option>
+                                    <option>Employer</option>
+                                    <option>Financial Career</option>
+                                    <option>Information Technology</option>
+                                    <option>Marketing</option>
+                                    <option>Quality check</option>
+                                    <option>Real Estate</option>
+                                    <option>Sales</option>
+                                    <option>Supporting</option>
+                                    <option>Teaching</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6">
+                            <button type="submit" class="site-button btn-block">Find Job</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Filters Search END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Browse Jobs -->
+        <div class="section-full browse-job p-b50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8 col-md-7">
+                        <div class="job-bx-title clearfix">
+                            <h5 class="font-weight-700 pull-left text-uppercase">2269 Jobs Found</h5>
+                            <div class="float-right">
+                                <span class="select-title">Sort by freshness</span>
+                                <select>
+                                    <option>Last 2 Months</option>
+                                    <option>Last Months</option>
+                                    <option>Last Weeks</option>
+                                    <option>Last 3 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <ul class="post-job-bx">
+                            <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <!-- <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="post-bx">
+                                    <div class="d-flex m-b30">
+                                        <div class="job-post-company">
+                                            <a href="javascript:void(0);"><span>
+                                                <img alt="" src="https://job-board.dexignzone.com/xhtml/images/logo/icon1.png"/>
+                                            </span></a>
+                                        </div>
+                                        <div class="job-post-info">
+                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <ul>
+                                                <li><i class="fa fa-map-marker"></i> Sacramento, California</li>
+                                                <li><i class="fa fa-bookmark-o"></i> Full Time</li>
+                                                <li><i class="fa fa-clock-o"></i> Published 11 months ago</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="job-time mr-auto">
+                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                        </div>
+                                        <div class="salary-bx">
+                                            <span>$1200 - $ 2500</span>
+                                        </div>
+                                    </div>
+                                    <label class="like-btn">
+                                          <input type="checkbox">
+                                          <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </li> -->
+                        </ul>
+                        <div class="pagination-bx m-t30">
+                            <ul class="pagination">
+                                <li class="previous"><a href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a></li>
+                                <li class="active"><a href="javascript:void(0);">1</a></li>
+                                <li><a href="javascript:void(0);">2</a></li>
+                                <li><a href="javascript:void(0);">3</a></li>
+                                <li class="next"><a href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Browse Jobs END -->
+    </div>
+</div>
+<!-- Content END-->
+</body>
+</html>
+
+{{ end }}
