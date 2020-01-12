@@ -7,7 +7,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 )
 
 type SignUpHandler struct {

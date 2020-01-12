@@ -4,8 +4,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/abdimussa87/Intern/delivery/http/handler"
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/delivery/http/handler"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 	"github.com/dgrijalva/jwt-go"
 )
 

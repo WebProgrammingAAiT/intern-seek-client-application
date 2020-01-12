@@ -11,7 +11,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 )
 
 type CompanyProfileHandler struct {
@@ -27,7 +27,6 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 	compDetail := &entity.CompanyDetail{}
 	User := entity.User{}
 	company := entity.Company{}
-	exists := true
 
 	//getting userId
 	c, err := r.Cookie("token")
@@ -57,8 +56,12 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		compDetail.Description = r.FormValue("Description")
 		compDetail.Country = r.FormValue("Country")
 		compDetail.City = r.FormValue("City")
+		id, err := strconv.Atoi((r.FormValue("compid")))
+		if err == nil {
+			compDetail.ID = uint(id)
+		}
 
-		if !exists {
+		if compDetail.ID == 0 {
 			fmt.Printf("Company id equals %d", compDetail.ID)
 			fmt.Printf("Please")
 			fmt.Printf("Compdetail uid %d", compDetail.UserID)
@@ -91,6 +94,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 
 			err = json.NewDecoder(resp.Body).Decode(compDetail)
 			if err != nil {
+				fmt.Printf(err.Error())
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
@@ -120,7 +124,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		} else {
 			fmt.Println("In else")
 			//Used to get userId from cookie
-
+			fmt.Printf("Compdetail id %d", int(compDetail.ID))
 			url := fmt.Sprintf("http://localhost:8181/v1/company/update/%s", strconv.Itoa(int(compDetail.ID)))
 			url2 := fmt.Sprintf("http://localhost:8181/v1/user/update/%s", strconv.Itoa(int(claims.UserID)))
 
@@ -204,7 +208,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		err = json.Unmarshal(body, compDetail)
 
 		if err != nil {
-			exists = false
+
 			company.CompUser = User
 			company.CompDetail = *compDetail
 			fmt.Println("got inside an eror")

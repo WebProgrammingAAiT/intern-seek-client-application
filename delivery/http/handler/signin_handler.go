@@ -7,7 +7,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 )
 
 type SignInHandler struct {
@@ -53,17 +53,16 @@ func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		for _, cookie := range resp.Cookies() {
-			fmt.Println("Cookie with namee", cookie.Name)
-			http.SetCookie(w, cookie)
-		}
-
 		defer resp.Body.Close()
 		//fmt.Println(resp.StatusCode)
 
 		if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 
-			http.Redirect(w, r, "/intern", http.StatusSeeOther)
+			for _, cookie := range resp.Cookies() {
+				fmt.Println("Cookie with name", cookie.Name)
+				http.SetCookie(w, cookie)
+			}
+			http.Redirect(w, r, "/company", http.StatusSeeOther)
 
 		} else {
 			eror := Error{Name: "Invalid username or password"}

@@ -21,6 +21,7 @@
                                         <div class="col-lg-6 col-md-6">
                                            
                                             <div class="form-group">
+                                                
                                                 <label>Company Name</label>
                                                 <input type="text" class="form-control" name="Name" value = {{.Name}} placeholder="Enter Company Name">
                                             </div>
@@ -64,7 +65,7 @@
                                         {{with .CompDetail}}
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                
+                                                <input type="hidden" name="compid" value="{{ .ID }}" />
                                                 <label>Focus Area</label>
                                                 <input type="text" name="FocusArea" class="form-control" {{if .FocusArea}} value={{.FocusArea}} {{end}} placeholder="info@gmail.com">
                                             </div>
