@@ -25,7 +25,7 @@ func NewSignInHandler(T *template.Template) *SignInHandler {
 func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	if _, err := r.Cookie("token"); err == nil {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/company", http.StatusSeeOther)
 	}
 
 	if r.Method == http.MethodPost {
@@ -53,15 +53,18 @@ func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		for _, cookie := range resp.Cookies() {
+			fmt.Println("Cookie with namee", cookie.Name)
+			http.SetCookie(w, cookie)
+		}
+
 		defer resp.Body.Close()
 		//fmt.Println(resp.StatusCode)
 
 		if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-			for _, cookie := range resp.Cookies() {
-				fmt.Println("Cookie with name", cookie.Name)
-				http.SetCookie(w, cookie)
-			}
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+
+			http.Redirect(w, r, "/intern", http.StatusSeeOther)
+
 		} else {
 			eror := Error{Name: "Invalid username or password"}
 			sih.tmpl.ExecuteTemplate(w, "login.html", &eror)
