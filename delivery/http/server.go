@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"html/template"
 	"net/http"
 
@@ -74,10 +75,74 @@ func main() {
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("/login", signInHandler.SignIn)
 	mux.HandleFunc("/signup", signUpHandler.SignUp)
-	mux.HandleFunc("/company/manage", companyManageHandler)
-	mux.HandleFunc("/company", companyProfileHandler.CompanyProfile)
-	mux.HandleFunc("/intern", internProfileHandler)
+	mux.Handle("/company/manage", isAuthorizedCompany(companyManageHandler))
+	mux.Handle("/company", isAuthorizedCompany(companyProfileHandler.CompanyProfile))
+	mux.Handle("/intern", isAuthorizedIntern(internProfileHandler))
 	mux.HandleFunc("/intern/applied", internAppliedHandler)
 	mux.HandleFunc("/internship/desc", internDescHandler)
 	http.ListenAndServe(":8080", mux)
+}
+
+//Middleware for checking authorization for viewing a page
+func isAuthorizedCompany(endpoint func(w http.ResponseWriter, r *http.Request)) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if cookie, err := r.Cookie("token"); err == nil {
+			claims := &entity.Claims{}
+			token, err := jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+				return []byte("secret"), nil
+			})
+			if err != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			if token.Valid {
+				if claims.Role == "company" {
+					endpoint(w, r)
+				} else {
+					w.WriteHeader(http.StatusUnauthorized)
+					json.NewEncoder(w).Encode("Unauthorized")
+					return
+
+				}
+			}
+
+		} else {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Unauthorized")
+			return
+		}
+	})
+}
+
+//Middleware for checking authorization for viewing a page
+func isAuthorizedIntern(endpoint func(w http.ResponseWriter, r *http.Request)) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if cookie, err := r.Cookie("token"); err == nil {
+			claims := &entity.Claims{}
+			token, err := jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+				return []byte("secret"), nil
+			})
+			if err != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			if token.Valid {
+				if claims.Role == "intern" {
+					endpoint(w, r)
+				} else {
+					w.WriteHeader(http.StatusUnauthorized)
+					json.NewEncoder(w).Encode("Unauthorized")
+					return
+
+				}
+			}
+
+		} else {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Unauthorized")
+			return
+		}
+	})
 }

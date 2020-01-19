@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/abdimussa87/intern-seek-client-application/entity"
+	"github.com/dgrijalva/jwt-go"
 )
 
 type SignInHandler struct {
@@ -57,13 +58,30 @@ func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		//fmt.Println(resp.StatusCode)
 
 		if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-
+			claims := &entity.Claims{}
 			for _, cookie := range resp.Cookies() {
 				fmt.Println("Cookie with name", cookie.Name)
 				http.SetCookie(w, cookie)
-			}
-			http.Redirect(w, r, "/company", http.StatusSeeOther)
+				//trying to get the role type from the cookie using claims
+				_, err = jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+					return []byte("secret"), nil
+				})
 
+				if err != nil {
+					w.WriteHeader(http.StatusUnauthorized)
+					return
+				}
+			}
+			//Checking user role type
+			userRole := &entity.UserRole{}
+
+			userRole.Role = claims.Role
+
+			if userRole.Role == "company" {
+				http.Redirect(w, r, "/company", http.StatusSeeOther)
+			} else {
+				http.Redirect(w, r, "/intern", http.StatusSeeOther)
+			}
 		} else {
 			eror := Error{Name: "Invalid username or password"}
 			sih.tmpl.ExecuteTemplate(w, "login.html", &eror)
