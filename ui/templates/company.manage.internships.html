@@ -1,0 +1,68 @@
+{{ define "company.manage.job.layout" }}
+{{ template "company.navbar" . }}
+{{ template "company.sidebar" . }}
+{{ template "company.manage.job.content" . }}
+{{ template "company.footer" . }}
+{{ end }}
+{{ define "company.manage.job.content" }}
+
+						<div class="col-xl-9 col-lg-8 m-b30">
+							<div class="job-bx clearfix">
+								<div class="job-bx-title clearfix">
+									<h5 class="font-weight-700 pull-left text-uppercase">Manage internships</h5>
+								</div>
+								<table class="table-job-bx cv-manager company-manage-job">
+									<thead>
+										<tr>
+											<th>Internship Title</th>
+											<th>Applications</th>
+											<th>Date</th>
+											<th>Edit</th>
+											<th>Delete</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{ range .}}
+										<tr>
+											<td class="job-name">
+												<a href="">{{ .Name}}</a>
+												<ul class="job-post-info">
+													<li><i class="fa fa-filter"></i> {{ .RequiredAcademicLevel}}</li>
+												</ul>
+											</td>
+											<td class="application text-primary">(0)</td>
+											<td class="application text-primary">{{ .ClosingDate}}</td>
+											<td >
+												<a href=""><i class="ti-trash">E</i></a>
+											</td>
+											<td >
+												<a href=""><i class="fa fa-eye"></i></a>
+											</td>
+										</tr>
+										{{end}}
+										
+									</tbody>
+								</table>
+								<div class="pagination-bx m-t30 float-right">
+									<ul class="pagination">
+										<li class="previous"><a href=""><i class="ti-arrow-left"></i> Prev</a></li>
+										<li class="active"><a href="">1</a></li>
+										<li><a href="">2</a></li>
+										<li><a href="">3</a></li>
+										<li class="next"><a href="">Next <i class="ti-arrow-right"></i></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <!-- Browse Jobs END -->
+		</div>
+    </div>
+    <!-- Content END-->
+	
+                  
+  </body>
+</html>
+{{end}}
