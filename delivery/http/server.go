@@ -1,17 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"html/template"
 	"net/http"
 
-<<<<<<< HEAD
-	"github.com/abdimussa87/Intern/delivery/http/handler"
-	"github.com/abdimussa87/Intern/entity"
-=======
-	"github.com/MahletH/Intern-Seek-Version-1/intern-seek-client-application/delivery/http/handler"
-	"github.com/MahletH/Intern-Seek-Version-1/intern-seek-client-application/entity"
-
->>>>>>> 2ce868bd28d8b735d112e7f6f0c46e66011098ad
+	"github.com/abdimussa87/intern-seek-client-application/delivery/http/handler"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -28,11 +23,6 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-
-	temp.ExecuteTemplate(w, "index.layout", nil)
-}
-
 // func loginHandler(w http.ResponseWriter, r *http.Request) {
 // 	temp.ExecuteTemplate(w, "login.html", nil)
 // }
@@ -41,25 +31,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 // 	temp.ExecuteTemplate(w, "signup.html", nil)
 // }
 
-<<<<<<< HEAD
-func companyManageHandler(w http.ResponseWriter, r *http.Request) {
-
-	temp.ExecuteTemplate(w, "company.manage.job.layout", nil)
-
-}
-
-=======
-// func companyManageHandler(w http.ResponseWriter, r *http.Request) {
-
-// 	temp.ExecuteTemplate(w, "company.manage.job.layout", nil)
-
-// }
-func companyNewInternshipHandler(w http.ResponseWriter, r *http.Request) {
-
-	temp.ExecuteTemplate(w, "company.post.new.internship.layout", nil)
-
-}
->>>>>>> 2ce868bd28d8b735d112e7f6f0c46e66011098ad
 func companyPostHandler(w http.ResponseWriter, r *http.Request) {
 	compDetail := entity.CompanyDetail{City: "ADDis", Country: "Ethiopia", Description: "This a good company", FocusArea: "Software"}
 	compUser := entity.User{
@@ -78,37 +49,93 @@ func companyPostHandler(w http.ResponseWriter, r *http.Request) {
 func internAppliedHandler(w http.ResponseWriter, r *http.Request) {
 	temp.ExecuteTemplate(w, "intern.applied.layout", nil)
 }
-func internProfileHandler(w http.ResponseWriter, r *http.Request) {
-	temp.ExecuteTemplate(w, "intern.profile.layout", nil)
-}
+
 func main() {
 
+	searchHandler := handler.NewSearchHandler(temp)
 	signInHandler := handler.NewSignInHandler(temp)
 	signUpHandler := handler.NewSignUpHandler(temp)
 	companyProfileHandler := handler.NewCompanyProfileHandler(temp)
-<<<<<<< HEAD
-=======
 	companyNewInternshipHandler := handler.NewIntenshipHandler(temp)
-	companyManageHandler := handler.NewIntenshipHandler(temp)
->>>>>>> 2ce868bd28d8b735d112e7f6f0c46e66011098ad
-
+	internProfileHandler := handler.NewInternProfileHandler(temp)
+	indexHandler := handler.NewIndexHandler(temp)
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("../../ui/assets/"))
 	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/", indexHandler.GetIndex)
 	mux.HandleFunc("/login", signInHandler.SignIn)
 	mux.HandleFunc("/signup", signUpHandler.SignUp)
-<<<<<<< HEAD
-	mux.HandleFunc("/company/manage", companyManageHandler)
-	mux.HandleFunc("/company", companyProfileHandler.CompanyProfile)
-=======
-	mux.HandleFunc("/company/manage", companyManageHandler.RetrieveInternship)
-	mux.HandleFunc("/company", companyProfileHandler.CompanyProfile)
+	mux.HandleFunc("/company/manage", companyNewInternshipHandler.CompanyRetrieveInternship)
 	mux.HandleFunc("/company/new-internship", companyNewInternshipHandler.AddInternship)
-
->>>>>>> 2ce868bd28d8b735d112e7f6f0c46e66011098ad
-	mux.HandleFunc("/intern", internProfileHandler)
+	mux.Handle("/company", isAuthorizedCompany(companyProfileHandler.CompanyProfile))
+	mux.Handle("/intern", isAuthorizedIntern(internProfileHandler.InternProfile))
 	mux.HandleFunc("/intern/applied", internAppliedHandler)
 	mux.HandleFunc("/internship/desc", internDescHandler)
+	mux.HandleFunc("/search", searchHandler.Search)
+	mux.HandleFunc("/logout", handler.Logout)
 	http.ListenAndServe(":8080", mux)
+}
+
+//Middleware for checking authorization for viewing a page
+func isAuthorizedCompany(endpoint func(w http.ResponseWriter, r *http.Request)) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if cookie, err := r.Cookie("token"); err == nil {
+			claims := &entity.Claims{}
+			token, err := jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+				return []byte("secret"), nil
+			})
+			if err != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			if token.Valid {
+				if claims.Role == "company" {
+					endpoint(w, r)
+				} else {
+					w.WriteHeader(http.StatusUnauthorized)
+					json.NewEncoder(w).Encode("Unauthorized")
+					return
+
+				}
+			}
+
+		} else {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Unauthorized")
+			return
+		}
+	})
+}
+
+//Middleware for checking authorization for viewing a page
+func isAuthorizedIntern(endpoint func(w http.ResponseWriter, r *http.Request)) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if cookie, err := r.Cookie("token"); err == nil {
+			claims := &entity.Claims{}
+			token, err := jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+				return []byte("secret"), nil
+			})
+			if err != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			if token.Valid {
+				if claims.Role == "intern" {
+					endpoint(w, r)
+				} else {
+					w.WriteHeader(http.StatusUnauthorized)
+					json.NewEncoder(w).Encode("Unauthorized")
+					return
+
+				}
+			}
+
+		} else {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode("Unauthorized")
+			return
+		}
+	})
 }

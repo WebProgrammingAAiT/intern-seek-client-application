@@ -7,7 +7,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
+	"github.com/dgrijalva/jwt-go"
 )
 
 type SignInHandler struct {
@@ -25,7 +26,21 @@ func NewSignInHandler(T *template.Template) *SignInHandler {
 func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	if _, err := r.Cookie("token"); err == nil {
-		http.Redirect(w, r, "/company", http.StatusSeeOther)
+		c, _ := r.Cookie("token")
+		tknStr := c.Value
+		claims := &entity.Claims{}
+		_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte("secret"), nil
+		})
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		if claims.Role == "company" {
+			http.Redirect(w, r, "/company", http.StatusSeeOther)
+		} else if claims.Role == "intern" {
+			http.Redirect(w, r, "/intern", http.StatusSeeOther)
+		}
 	}
 
 	if r.Method == http.MethodPost {
@@ -57,12 +72,30 @@ func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		//fmt.Println(resp.StatusCode)
 
 		if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
+			claims := &entity.Claims{}
 			for _, cookie := range resp.Cookies() {
 				fmt.Println("Cookie with name", cookie.Name)
 				http.SetCookie(w, cookie)
-			}
-			http.Redirect(w, r, "/company", http.StatusSeeOther)
+				//trying to get the role type from the cookie using claims
+				_, err = jwt.ParseWithClaims(cookie.Value, claims, func(token *jwt.Token) (interface{}, error) {
+					return []byte("secret"), nil
+				})
 
+				if err != nil {
+					w.WriteHeader(http.StatusUnauthorized)
+					return
+				}
+			}
+			//Checking user role type
+			userRole := &entity.UserRole{}
+
+			userRole.Role = claims.Role
+
+			if userRole.Role == "company" {
+				http.Redirect(w, r, "/company", http.StatusSeeOther)
+			} else {
+				http.Redirect(w, r, "/intern", http.StatusSeeOther)
+			}
 		} else {
 			eror := Error{Name: "Invalid username or password"}
 			sih.tmpl.ExecuteTemplate(w, "login.html", &eror)

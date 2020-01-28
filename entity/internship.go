@@ -10,7 +10,7 @@ type Internship struct {
 	RequiredAcademicLevel string    `json:"required_academic_level" gorm:"type:varchar(255)"`
 	Description           string    `json:"description"`
 	ClosingDate           time.Time `json:"closing_date"`
-	FieldsReq             []Fields  `gorm:"one2many:fields"`
+	FieldsReq             []Field   `gorm:"one2many:fields"`
 
 	//numOfInterns     int
 	//salary           float64

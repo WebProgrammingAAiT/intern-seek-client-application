@@ -11,7 +11,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 
-	"github.com/abdimussa87/Intern/entity"
+	"github.com/abdimussa87/intern-seek-client-application/entity"
 )
 
 type CompanyProfileHandler struct {
@@ -71,17 +71,8 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 			url := "http://localhost:8181/v1/company"
 			url2 := fmt.Sprintf("http://localhost:8181/v1/user/update/%s", strconv.Itoa(int(claims.UserID)))
 
-			compDetail.UserID = claims.UserID
-			compDetail.FocusArea = r.FormValue("FocusArea")
-			compDetail.Description = r.FormValue("Description")
-			compDetail.Country = r.FormValue("Country")
-			compDetail.City = r.FormValue("City")
-
-			User.Name = r.FormValue("Name")
-			User.Username = r.FormValue("Username")
-			User.Phone = r.FormValue("Phone")
-			User.Email = r.FormValue("Email")
 			fmt.Println(compDetail.UserID)
+
 			output, err := json.MarshalIndent(&compDetail, "", "\t\t")
 
 			if err != nil {
@@ -95,6 +86,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 			}
 
 			req.Header.Set("Content-Type", "application/json")
+			//req.Header.Set("token", tknStr)
 			client := &http.Client{}
 			resp, err := client.Do(req)
 			if err != nil {
@@ -220,6 +212,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 
 			company.CompUser = User
 			company.CompDetail = *compDetail
+			fmt.Println("got inside an eror")
 			cph.tmpl.ExecuteTemplate(w, "company.profile.layout", company)
 			return
 		}
