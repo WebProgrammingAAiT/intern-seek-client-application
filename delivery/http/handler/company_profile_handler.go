@@ -28,24 +28,45 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 	User := entity.User{}
 	company := entity.Company{}
 
+	//getting userId
+	c, err := r.Cookie("token")
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	tknStr := c.Value
+	claims := &entity.Claims{}
+	_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	User.ID = claims.UserID
+	User.Name = r.FormValue("Name")
+	User.Username = r.FormValue("Username")
+	User.Phone = r.FormValue("Phone")
+	User.Email = r.FormValue("Email")
+
 	if r.Method == http.MethodPost {
+		compDetail.UserID = claims.UserID
+		compDetail.FocusArea = r.FormValue("FocusArea")
+		compDetail.Description = r.FormValue("Description")
+		compDetail.Country = r.FormValue("Country")
+		compDetail.City = r.FormValue("City")
+		id, err := strconv.Atoi((r.FormValue("compid")))
+		if err == nil {
+			compDetail.ID = uint(id)
+		}
+
 		if compDetail.ID == 0 {
 			fmt.Printf("Company id equals %d", compDetail.ID)
+			fmt.Printf("Please")
+			fmt.Printf("Compdetail uid %d", compDetail.UserID)
+			fmt.Printf("User id %d", User.ID)
 			//Used to get userId from cookie
-			c, err := r.Cookie("token")
-			if err != nil {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			tknStr := c.Value
-			claims := &entity.Claims{}
-			_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-				return []byte("secret"), nil
-			})
-			if err != nil {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
 
 			url := "http://localhost:8181/v1/company"
 			url2 := fmt.Sprintf("http://localhost:8181/v1/user/update/%s", strconv.Itoa(int(claims.UserID)))
@@ -75,12 +96,21 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 
 			req.Header.Set("Content-Type", "application/json")
 			client := &http.Client{}
-			_, err = client.Do(req)
+			resp, err := client.Do(req)
 			if err != nil {
 				panic(err)
 			}
 
+			err = json.NewDecoder(resp.Body).Decode(compDetail)
+			if err != nil {
+				fmt.Printf(err.Error())
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			defer resp.Body.Close()
+			fmt.Printf("User before sending id equal %d", int(User.ID))
 			output2, err := json.MarshalIndent(&User, "", "\t\t")
+
 			if err != nil {
 				w.Header().Set("Content-Type", "application/json")
 				http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
@@ -103,32 +133,9 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		} else {
 			fmt.Println("In else")
 			//Used to get userId from cookie
-			c, err := r.Cookie("token")
-			if err != nil {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			tknStr := c.Value
-			claims := &entity.Claims{}
-			_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-				return []byte("secret"), nil
-			})
-			if err != nil {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
+			fmt.Printf("Compdetail id %d", int(compDetail.ID))
 			url := fmt.Sprintf("http://localhost:8181/v1/company/update/%s", strconv.Itoa(int(compDetail.ID)))
 			url2 := fmt.Sprintf("http://localhost:8181/v1/user/update/%s", strconv.Itoa(int(claims.UserID)))
-			User.Name = r.FormValue("Name")
-			User.ID = claims.UserID
-			User.Username = r.FormValue("Username")
-			User.Phone = r.FormValue("Phone")
-			User.Email = r.FormValue("Email")
-
-			compDetail.FocusArea = r.FormValue("FocusArea")
-			compDetail.Description = r.FormValue("Description")
-			compDetail.Country = r.FormValue("Country")
-			compDetail.City = r.FormValue("City")
 
 			output, err := json.MarshalIndent(&compDetail, "", "\t\t")
 
@@ -172,24 +179,8 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		}
 
 	} else if r.Method == http.MethodGet {
-		c, err := r.Cookie("token")
-		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
-		tknStr := c.Value
-		claims := &entity.Claims{}
-		_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte("secret"), nil
-		})
-		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
-		userID := strconv.Itoa(int(claims.UserID))
 
-		fmt.Println(userID)
-		url := fmt.Sprintf("http://localhost:8181/v1/users/%s", userID)
+		url := fmt.Sprintf("http://localhost:8181/v1/users/%s", strconv.Itoa(int(User.ID)))
 
 		client := &http.Client{}
 		response, err := client.Get(url)
@@ -209,7 +200,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 			return
 		}
-		url2 := fmt.Sprintf("http://localhost:8181/v1/companybyuserid/%s", userID)
+		url2 := fmt.Sprintf("http://localhost:8181/v1/companybyuserid/%s", strconv.Itoa(int(User.ID)))
 
 		response2, err := client.Get(url2)
 		if err != nil {
@@ -226,12 +217,9 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 		err = json.Unmarshal(body, compDetail)
 
 		if err != nil {
-			// fmt.Println(err)
-			// w.Header().Set("Content-Type", "application/json")
-			// http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+
 			company.CompUser = User
 			company.CompDetail = *compDetail
-			fmt.Println("got inside an eror")
 			cph.tmpl.ExecuteTemplate(w, "company.profile.layout", company)
 			return
 		}
