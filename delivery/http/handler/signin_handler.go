@@ -26,7 +26,21 @@ func NewSignInHandler(T *template.Template) *SignInHandler {
 func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	if _, err := r.Cookie("token"); err == nil {
-		http.Redirect(w, r, "/company", http.StatusSeeOther)
+		c, _ := r.Cookie("token")
+		tknStr := c.Value
+		claims := &entity.Claims{}
+		_, err = jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte("secret"), nil
+		})
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		if claims.Role == "company" {
+			http.Redirect(w, r, "/company", http.StatusSeeOther)
+		} else if claims.Role == "intern" {
+			http.Redirect(w, r, "/intern", http.StatusSeeOther)
+		}
 	}
 
 	if r.Method == http.MethodPost {
@@ -78,9 +92,9 @@ func (sih SignInHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 			userRole.Role = claims.Role
 
 			if userRole.Role == "company" {
-				http.Redirect(w, r, "/company", http.StatusSeeOther)
+				http.Redirect(w, r, "/", http.StatusSeeOther)
 			} else {
-				http.Redirect(w, r, "/intern", http.StatusSeeOther)
+				http.Redirect(w, r, "/", http.StatusSeeOther)
 			}
 		} else {
 			eror := Error{Name: "Invalid username or password"}

@@ -1,5 +1,5 @@
 {{ define "intern.profile.layout" }}
-{{ template "company.navbar" . }}
+{{ template "intern.navbar" . }}
 {{ template "intern.sidebar" . }}
 {{ template "intern.profile.content" . }}
 {{ template "company.footer" . }}
@@ -12,59 +12,92 @@
                                         <h5 class="font-weight-700 pull-left text-uppercase">Basic Information</h5>
                                         <a href="index.html" class="site-button right-arrow button-sm float-right">Back</a>
                                     </div>
-                                    <form>
+                                    <form action="/intern" method="Post">
+                                        {{with .InternUser }}
                                         <div class="row m-b30">
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Your Name:</label>
-                                                    <input type="text" class="form-control" placeholder="Alexander Weir">
+                                                    <input type="text" class="form-control" name="Name" value = {{.Name}} placeholder="Alexander Weir">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    
+                                                    <label>User Name</label>
+                                                    <input type="text" class="form-control" name="Username" value="{{.Username}}" placeholder="Username">
+                                                </div>
+                                            </div>
+                                            {{end}}
+                                            <!--<div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Skills:</label>
                                                     <input type="text" class="form-control" placeholder="Photoshop">
                                                 </div>
-                                            </div>
+                                            </div>-->
+                                            {{with .InternDetail}}
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label>Field:</label>
-                                                    <select>
-                                                        <option>Computer Science</option>
-                                                        <option>Software Engineering</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="form-group">
+                                                    <input type="hidden" name="internid" value="{{ .ID }}" />
                                                     <label>Academic-Level:</label>
-                                                    <select>
-                                                        <option>2nd Year</option>
-                                                        <option>3rd Year</option>
-                                                    </select>
+                                                    <input type="text" class="form-control" name="AcademicLevel" {{if .AcademicLevel}} value={{.AcademicLevel}} {{end}} placeholder="Third year">
+
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-md-12">
+                                            {{end}}
+
+                                            {{with .InternDetail}}
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label>My Field(s):</label>
+                                                   {{with .Fields}}
+                                                    {{range .}}
+                                                    <label>{{if .Name}}{{.Name}}{{end}}</label>
+                                                    {{end}}
+                                                    {{end}}
+                                                   
+                                                  
+                                                </div>
+                                            </div>
+                                            {{end}}
+                                            {{with .AvailableField}}
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Field:</label><br>
+
+                                                    {{range .}}
+
+                                                    <input type="checkbox" name="Field"  value="{{.Name}}-{{.ID}}">{{.Name}}<br>
+                                                     {{end}}
+
+                                                </div>
+                                            </div>
+                                            {{end}}
+
+
+                                          <!--  <div class="col-lg-12 col-md-12">
                                                 <div class="form-group">
                                                     <label>Description:</label>
                                                     <textarea class="form-control">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.</textarea>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
+
                                         <div class="job-bx-title clearfix">
                                             <h5 class="font-weight-700 pull-left text-uppercase">Contact Information</h5>
                                         </div>
                                         <div class="row">
+                                            {{with .InternUser}}
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Phone:</label>
-                                                    <input type="text" class="form-control" placeholder="+1 123 456 7890">
+                                                    <input type="text" class="form-control" name="Phone" value={{.Phone}} placeholder="+1 123 456 7890">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Email Address:</label>
-                                                    <input type="text" class="form-control" placeholder="info@example.com">
+                                                    <input type="text" class="form-control" name="Email" value ={{.Email}} placeholder="info@example.com">
                                                 </div>
                                             <!-- </div>
                                             <div class="col-lg-6 col-md-6">
@@ -92,6 +125,7 @@
                                                 </div>
                                             </div> -->
                                         </div>
+                                        {{end}}
                                         <button class="site-button m-b30">Save Setting</button>
                                     </form>
                                 </div>    

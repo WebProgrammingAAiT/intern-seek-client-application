@@ -1,9 +1,11 @@
+
 package entity
 
-type PersonalDetails struct {
-	ID     int
-	UserId int
+import "github.com/jinzhu/gorm"
 
-	Field         string
-	AcademicLevel string
+type PersonalDetails struct {
+	gorm.Model
+	UserID      uint   `sql:"type:int REFERENCES users(ID)"`
+	Fields   []Field   `gorm:"many2many:field_internship"`
+	AcademicLevel string `gorm:"type:varchar(255);not null"`
 }

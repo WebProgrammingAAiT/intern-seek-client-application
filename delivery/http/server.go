@@ -23,11 +23,6 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-
-	temp.ExecuteTemplate(w, "index.layout", nil)
-}
-
 // func loginHandler(w http.ResponseWriter, r *http.Request) {
 // 	temp.ExecuteTemplate(w, "login.html", nil)
 // }
@@ -35,12 +30,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 // func signupHandler(w http.ResponseWriter, r *http.Request) {
 // 	temp.ExecuteTemplate(w, "signup.html", nil)
 // }
-
-func companyManageHandler(w http.ResponseWriter, r *http.Request) {
-
-	temp.ExecuteTemplate(w, "company.manage.job.layout", nil)
-
-}
 
 func companyPostHandler(w http.ResponseWriter, r *http.Request) {
 	compDetail := entity.CompanyDetail{City: "ADDis", Country: "Ethiopia", Description: "This a good company", FocusArea: "Software"}
@@ -60,26 +49,30 @@ func companyPostHandler(w http.ResponseWriter, r *http.Request) {
 func internAppliedHandler(w http.ResponseWriter, r *http.Request) {
 	temp.ExecuteTemplate(w, "intern.applied.layout", nil)
 }
-func internProfileHandler(w http.ResponseWriter, r *http.Request) {
-	temp.ExecuteTemplate(w, "intern.profile.layout", nil)
-}
+
 func main() {
 
+	searchHandler := handler.NewSearchHandler(temp)
 	signInHandler := handler.NewSignInHandler(temp)
 	signUpHandler := handler.NewSignUpHandler(temp)
 	companyProfileHandler := handler.NewCompanyProfileHandler(temp)
-
+	companyNewInternshipHandler := handler.NewIntenshipHandler(temp)
+	internProfileHandler := handler.NewInternProfileHandler(temp)
+	indexHandler := handler.NewIndexHandler(temp)
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("../../ui/assets/"))
 	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/", indexHandler.GetIndex)
 	mux.HandleFunc("/login", signInHandler.SignIn)
 	mux.HandleFunc("/signup", signUpHandler.SignUp)
-	mux.Handle("/company/manage", isAuthorizedCompany(companyManageHandler))
+	mux.HandleFunc("/company/manage", companyNewInternshipHandler.CompanyRetrieveInternship)
+	mux.HandleFunc("/company/new-internship", companyNewInternshipHandler.AddInternship)
 	mux.Handle("/company", isAuthorizedCompany(companyProfileHandler.CompanyProfile))
-	mux.Handle("/intern", isAuthorizedIntern(internProfileHandler))
+	mux.Handle("/intern", isAuthorizedIntern(internProfileHandler.InternProfile))
 	mux.HandleFunc("/intern/applied", internAppliedHandler)
 	mux.HandleFunc("/internship/desc", internDescHandler)
+	mux.HandleFunc("/search", searchHandler.Search)
+	mux.HandleFunc("/logout", handler.Logout)
 	http.ListenAndServe(":8080", mux)
 }
 

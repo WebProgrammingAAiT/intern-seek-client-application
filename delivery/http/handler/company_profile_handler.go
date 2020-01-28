@@ -86,6 +86,7 @@ func (cph CompanyProfileHandler) CompanyProfile(w http.ResponseWriter, r *http.R
 			}
 
 			req.Header.Set("Content-Type", "application/json")
+			//req.Header.Set("token", tknStr)
 			client := &http.Client{}
 			resp, err := client.Do(req)
 			if err != nil {
